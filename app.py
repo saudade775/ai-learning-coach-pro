@@ -31,53 +31,67 @@ st.set_page_config(page_title="AI 学习陪跑顾问", page_icon="🧭", layout=
 
 
 # ============================================================
-# 全局样式（深色主题 + 强制覆盖）
+# 全局样式（深色主题，强制覆盖侧边栏 / 卡片 / 输入框）
 # ============================================================
 
 st.markdown(
     """
     <style>
-    /* 引入 Inter 字体 */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
     html, body, [class*="css"] {
         font-family: 'Inter', sans-serif;
     }
 
-    /* 隐藏 Streamlit 默认菜单和页脚 */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
 
-    /* 全局背景 */
-    .stApp {
+    /* 全局背景强制黑 */
+    .stApp, [data-testid="stAppViewContainer"] {
         background-color: #0E1117 !important;
     }
 
-    /* 强制侧边栏变黑 */
-    section[data-testid="stSidebar"] {
+    /* 侧边栏强制黑（覆盖所有可能的容器） */
+    section[data-testid="stSidebar"],
+    section[data-testid="stSidebar"] > div,
+    div[data-testid="stSidebarContent"],
+    div[data-testid="stSidebarUserContent"],
+    div[data-testid="stSidebarNav"] {
         background-color: #0E1117 !important;
-        border-right: 1px solid #1E232B !important;
-    }
-    section[data-testid="stSidebar"] * {
         color: #FAFAFA !important;
     }
-    section[data-testid="stSidebar"] .stButton > button {
+
+    /* 侧边栏里的所有元素文字变白 */
+    section[data-testid="stSidebar"] *,
+    section[data-testid="stSidebar"] label,
+    section[data-testid="stSidebar"] p,
+    section[data-testid="stSidebar"] span,
+    section[data-testid="stSidebar"] div {
+        color: #FAFAFA !important;
+    }
+
+    /* 侧边栏按钮 */
+    section[data-testid="stSidebar"] button {
         background-color: #1E232B !important;
         color: #FAFAFA !important;
         border: 1px solid #2A2F3A !important;
+        border-radius: 10px !important;
+    }
+    section[data-testid="stSidebar"] button:hover {
+        border-color: #4F8BF9 !important;
     }
 
-    /* 主区文字颜色 */
-    .stMarkdown, .stText, p, h1, h2, h3, h4, li, span {
+    /* 主区文字 */
+    .stMarkdown, .stText, p, h1, h2, h3, h4, li, span, label {
         color: #FAFAFA !important;
     }
 
-    /* 标题字重和字间距 */
+    /* 标题字重 */
     h1, h2, h3 {
         font-weight: 600;
         letter-spacing: -0.02em;
     }
 
-    /* 按钮圆角和悬停动效 */
+    /* 主区按钮 */
     .stButton > button {
         border-radius: 10px;
         font-weight: 500;
@@ -92,7 +106,7 @@ st.markdown(
         border-color: #4F8BF9;
     }
 
-    /* 聊天气泡圆角和阴影 */
+    /* 聊天气泡 */
     .stChatMessage {
         border-radius: 16px;
         border: 1px solid #1E232B;
@@ -101,10 +115,20 @@ st.markdown(
 
     /* 输入框 */
     .stTextInput > div > div > input,
-    .stChatInput > div > div > textarea {
+    .stChatInput > div > div > textarea,
+    .stChatInput textarea {
         border-radius: 10px;
-        background-color: #1E232B;
-        color: #FAFAFA;
+        background-color: #1E232B !important;
+        color: #FAFAFA !important;
+        border: 1px solid #2A2F3A !important;
+    }
+
+    /* 下拉框、多选框 */
+    div[data-baseweb="select"] > div,
+    div[data-baseweb="input"] > div {
+        background-color: #1E232B !important;
+        border-color: #2A2F3A !important;
+        color: #FAFAFA !important;
     }
 
     /* 容器卡片 */
@@ -113,7 +137,19 @@ st.markdown(
         border-color: #1E232B !important;
     }
 
-    /* 主容器最大宽度 */
+    /* 上传框 */
+    section[data-testid="stFileUploaderDropzone"] {
+        background-color: #161B22 !important;
+        border-color: #2A2F3A !important;
+    }
+
+    /* expander */
+    details {
+        background-color: #161B22 !important;
+        border-color: #1E232B !important;
+    }
+
+    /* 主容器宽度 */
     .block-container {
         max-width: 900px;
         padding-top: 2rem;
@@ -546,8 +582,8 @@ with st.sidebar:
         **AI 学习陪跑顾问 v1.0**
 
         - 开源项目：[GitHub 链接]
-        - 作者：[你的名字]
-        - 反馈：[你的邮箱/微信]
+        - 作者：[saudade]
+        - 反馈：[邮箱saudade_0916@qq.com/Q群1127411925]
         """)
 
 
